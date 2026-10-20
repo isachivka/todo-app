@@ -1,0 +1,15 @@
+{
+  "name": "todo-app",
+  "version": "0.3.0",
+  "description": "A tiny command-line task tracker",
+  "type": "module",
+  "bin": { "todo": "bin/todo" },
+  "scripts": {
+    "test": "TZ=America/New_York node --test",
+    "test:unit": "TZ=America/New_York node --test test/unit.test.js",
+    "test:api": "TZ=America/New_York node --test test/api.test.js",
+    "test:e2e": "TZ=America/New_York node --test test/e2e.test.js",
+    "test:watch": "TZ=America/New_York node --test --watch"
+  },
+  "license": "MIT"
+}
