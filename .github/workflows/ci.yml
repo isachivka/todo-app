@@ -1,0 +1,21 @@
+name: CI
+on: [pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm test
+  release-note:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: changes/${{ github.event.number }}.md describes this pull request
+        run: |
+          f=changes/${{ github.event.number }}.md
+          if [ ! -s "$f" ]; then
+            echo "::error::Missing $f: add one line saying what this pull request changes for users (see changes/README.md)."
+            exit 1
+          fi
