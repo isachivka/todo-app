@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { parse } from "../src/cli.js";
 import { shortDate, line } from "../src/format.js";
 import { dueDate } from "../src/due.js";
+import { parseClock } from "../src/clock.js";
 
 test("parse reads the command, the title words and --due", () => {
   assert.deepEqual(parse(["add", "call", "bank", "--due", "tomorrow"]), { cmd: "add", words: ["call", "bank"], due: "tomorrow" });
@@ -24,4 +25,12 @@ test("dueDate uses the local calendar day late in the evening", () => {
   assert.equal(dueDate("today", lateEvening), "2026-11-27");
   assert.equal(dueDate("tomorrow", lateEvening), "2026-11-28");
   assert.equal(dueDate("next-week", lateEvening), "2026-12-04");
+});
+
+test("a bare clock date means local midnight", () => {
+  assert.equal(dueDate("today", parseClock("2026-10-27")), "2026-10-27");
+});
+
+test("dueDate rejects an invalid clock time", () => {
+  assert.throws(() => dueDate("today", new Date("garbage")), /invalid clock time/);
 });

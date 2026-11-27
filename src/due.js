@@ -5,6 +5,7 @@ const ymd = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate(
 
 export function dueDate(word, now) {
   const d = new Date(now);
+  if (Number.isNaN(d.getTime())) throw new Error(`invalid clock time: ${now}`);
   switch (word) {
     case "today":
       return ymd(d);
