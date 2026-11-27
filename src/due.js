@@ -1,8 +1,11 @@
 // Turns a due word into a calendar date (YYYY-MM-DD).
-const ymd = (d) => d.toISOString().slice(0, 10);
+// Uses the local calendar day, not UTC (toISOString would roll over late in the evening).
+const pad = (n) => String(n).padStart(2, "0");
+const ymd = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 
 export function dueDate(word, now) {
   const d = new Date(now);
+  if (Number.isNaN(d.getTime())) throw new Error(`invalid clock time: ${now}`);
   switch (word) {
     case "today":
       return ymd(d);
